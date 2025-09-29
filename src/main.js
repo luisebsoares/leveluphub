@@ -1,19 +1,12 @@
 import './styles.css';
-import { Header } from './components/header.js';
-import { Nav } from './components/nav.js';
-import { Footer } from './components/footer.js';
-import { html, append, el } from './utils/dom.js';
 import { ExplorePage } from './pages/explore.js';
+import { el } from './utils/dom.js';
 
-function renderShell(){
-  const root = document.getElementById('app');
-  html(root, Header() + Nav());
-  append(root, '<div id="view"></div>');
-  append(root, Footer());
-}
+// Set dynamic year in footer
+el('#year').textContent = new Date().getFullYear();
 
-async function router(route = 'explore'){
-  switch(route){
+async function router(route = 'explore') {
+  switch (route) {
     case 'explore':
     default:
       await ExplorePage();
@@ -21,10 +14,11 @@ async function router(route = 'explore'){
   }
 }
 
-renderShell();
+// initial route
+router();
 
-// basic route handling for future expansion
-document.addEventListener('click', (e)=>{
+// basic route handling
+document.addEventListener('click', (e) => {
   const a = e.target.closest('a[data-route]');
   if (!a) return;
   e.preventDefault();
