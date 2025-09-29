@@ -1,0 +1,1 @@
+import { loadPartials } from '../include.js'; import { initDetail } from '../pages/detail.js'; (async () => { await loadPartials(); initDetail(); })();

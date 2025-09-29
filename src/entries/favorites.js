@@ -1,0 +1,1 @@
+import { loadPartials } from '../include.js'; import { initFavorites } from '../pages/favorites.js'; (async () => { await loadPartials(); initFavorites(); })();

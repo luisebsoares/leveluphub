@@ -1,0 +1,1 @@
+import { loadPartials } from '../include.js'; import { initExplore } from '../pages/explore.js'; (async () => { await loadPartials(); initExplore(); })();

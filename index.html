@@ -1,47 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LevelUp Hub</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="/src/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home • LevelUp Hub</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles.css" />
 </head>
 
 <body>
-  <header class="header">
-    <div class="container brand">
-      <img src="/src/assets/logo.svg" alt="LevelUp Hub logo" />
-      <div>
-        <div style="display:flex; align-items:center; gap:.5rem">
-          <strong>LevelUp Hub</strong>
-          <span class="badge">Beta</span>
-        </div>
-        <div class="sub">Discover your next game</div>
-      </div>
-    </div>
-  </header>
+    <header class="header"></header>
 
-  <nav class="container" aria-label="Primary">
-    <div class="nav">
-      <a href="#" data-route="explore" aria-current="page">Explore</a>
-      <a href="#" data-route="favorites">Favorites</a>
-      <a href="#" data-route="about">About</a>
-    </div>
-  </nav>
+    <main class="container">
+        <section class="hero card" style="padding:1rem">
+            <div>
+                <h1>Welcome to LevelUp Hub</h1>
+                <p class="sub">A quick peek at today’s top-rated games. Use the arrows or let it auto-play.</p>
+            </div>
+        </section>
 
-  <main id="view" class="container"></main>
+        <section class="carousel" aria-label="Top rated games">
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack" role="list"></div>
+            </div>
 
-  <footer class="footer">
-    <div class="container"
-      style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
-      <small>&copy; <span id="year"></span> LevelUp Hub</small>
-      <small class="sub">Data: RAWG.io</small>
-    </div>
-  </footer>
+            <div class="carousel-controls">
+                <button class="button-ghost" id="prevSlide" aria-label="Previous">‹</button>
+                <div class="carousel-dots" id="carouselDots" role="tablist"></div>
+                <button class="button-ghost" id="nextSlide" aria-label="Next">›</button>
+            </div>
+        </section>
+    </main>
 
-  <script type="module" src="/src/main.js"></script>
+    <footer class="footer"></footer>
+    <script type="module" src="/src/entries/home.js"></script>
 </body>
 
 </html>
