@@ -33,7 +33,7 @@ export async function initDetail() {
           ${(game.parent_platforms || []).map(p => pill(p.platform.name)).join('')}
         </div>
         <div class="card-actions" style="padding-left:0">
-          <a class="button" href="/index.html">← Back</a>
+          <a class="button" href="index.html">← Back</a>
           <button id="favBtn" class="button-ghost">${fav ? '★ Remove' : '☆ Favorite'}</button>
         </div>
       </div>
@@ -44,7 +44,6 @@ export async function initDetail() {
       <div class="grid" id="shots"></div>
     </section>`);
 
-    // Render screenshots
     const shotsGrid = el('#shots');
     const shotUrls = shots.map(s => s.image);
     if (shotUrls.length) {
@@ -53,7 +52,6 @@ export async function initDetail() {
       append(shotsGrid, '<div class="empty" style="grid-column:1/-1"><p>No screenshots available.</p></div>');
     }
 
-    // Favorites button
     el('#favBtn').addEventListener('click', () => {
       const mini = { id: game.id, name: game.name, background_image: game.background_image, rating: game.rating, released: game.released };
       const after = toggleFavorite(mini);
@@ -61,7 +59,6 @@ export async function initDetail() {
     });
 
     // ------- LIGHTBOX -------
-    // Build modal once and append to <body>
     const modal = document.createElement('div');
     modal.className = 'lightbox hidden';
     modal.innerHTML = `
@@ -96,9 +93,7 @@ export async function initDetail() {
       document.body.classList.add('noscroll');
       modal.classList.remove('hidden');
       show(i);
-      // focus dialog for keyboard controls
       dlg.focus();
-      // preload neighbors (nice-to-have)
       const a = new Image(); a.src = shotUrls[(current + 1) % shotUrls.length];
       const b = new Image(); b.src = shotUrls[(current - 1 + shotUrls.length) % shotUrls.length];
     }
@@ -108,28 +103,23 @@ export async function initDetail() {
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
-    // Click on thumbnails -> open
     shotsGrid.addEventListener('click', (e) => {
       const img = e.target.closest('img[data-idx]');
       if (!img) return;
       open(Number(img.dataset.idx));
     });
 
-    // Controls
     btnPrev.addEventListener('click', () => show(current - 1));
     btnNext.addEventListener('click', () => show(current + 1));
     closeEls.forEach(el => el.addEventListener('click', close));
 
-    // Backdrop click closes (already wired via [data-close])
 
-    // Keyboard
     modal.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
       else if (e.key === 'ArrowLeft') show(current - 1);
       else if (e.key === 'ArrowRight') show(current + 1);
     });
 
-    // Touch swipe on dialog
     let startX = null;
     dlg.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
     dlg.addEventListener('touchend', e => {

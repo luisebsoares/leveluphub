@@ -1,5 +1,5 @@
+import { RAWG_KEY as KEY } from '../config.js';
 const BASE = 'https://api.rawg.io/api';
-const KEY = import.meta.env.VITE_RAWG_KEY;
 
 function toQuery(params) {
   const q = new URLSearchParams({ key: KEY });
@@ -17,7 +17,6 @@ export function buildParams(filters = {}) {
 
   if (filters.search) {
     p.search = filters.search;
-    // Make RAWG search less fuzzy
     p.search_precise = true;
     if (filters.search_exact) p.search_exact = true;
   }

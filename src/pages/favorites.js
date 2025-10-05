@@ -2,9 +2,9 @@ import { el, html, append } from '../utils/dom.js';
 import { getFavorites, toggleFavorite } from '../utils/storage.js';
 
 function card(g) {
-  const img = g.background_image || '/favicon.svg';
+  const img = g.background_image || 'public/favicon.svg';
   return `
-    <a href="/detail.html?id=${g.id}" class="card-link">
+    <a href="detail.html?id=${g.id}" class="card-link">
       <article class="card">
         <img src="${img}" alt="${g.name}" loading="lazy" />
         <div class="meta">

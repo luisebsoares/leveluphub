@@ -2,10 +2,10 @@ import { el, html, append, safe } from '../utils/dom.js';
 import { fetchGames } from '../services/rawg.js';
 
 function slideCard(g) {
-    const bg = g.background_image || '/favicon.svg';
+    const bg = g.background_image || 'public/favicon.svg';
     const plats = (g.parent_platforms || []).map(p => p.platform.name).slice(0, 3).join(' • ');
     return `
-    <a href="/detail.html?id=${g.id}" class="card-link">
+    <a href="detail.html?id=${g.id}" class="card-link">
       <article class="slide card" role="listitem">
         <img src="${bg}" alt="${safe(g.name)} cover" loading="lazy" />
         <div class="meta">
@@ -23,7 +23,6 @@ export async function initHome() {
     const prev = el('#prevSlide');
     const next = el('#nextSlide');
 
-    // Load top rated (order by -rating, larger page_size so we can pick 6)
     let list = [];
     try {
         const data = await fetchGames({ ordering: '-rating', page_size: 12 });
@@ -38,13 +37,11 @@ export async function initHome() {
         return;
     }
 
-    // Build slides + dots
     list.forEach((g, i) => {
         append(track, slideCard(g));
         append(dots, `<button class="dot${i === 0 ? ' is-active' : ''}" data-idx="${i}" aria-label="Go to slide ${i + 1}" role="tab"></button>`);
     });
 
-    // Slider logic
     let current = 0;
     let timer = null;
     const SLIDE_MS = 4500;
@@ -58,7 +55,6 @@ export async function initHome() {
     function play() { stop(); timer = setInterval(() => goTo(current + 1), SLIDE_MS); }
     function stop() { if (timer) clearInterval(timer); timer = null; }
 
-    // Controls
     next.addEventListener('click', () => { goTo(current + 1); play(); });
     prev.addEventListener('click', () => { goTo(current - 1); play(); });
     dots.addEventListener('click', (e) => {
@@ -68,14 +64,12 @@ export async function initHome() {
         play();
     });
 
-    // Pause on hover/focus
     const viewport = track.parentElement;
     viewport.addEventListener('mouseenter', stop);
     viewport.addEventListener('mouseleave', play);
     viewport.addEventListener('focusin', stop);
     viewport.addEventListener('focusout', play);
 
-    // Touch swipe (basic)
     let startX = null;
     viewport.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
     viewport.addEventListener('touchend', e => {
@@ -85,7 +79,6 @@ export async function initHome() {
         startX = null;
     });
 
-    // Start
     goTo(0);
     play();
 }

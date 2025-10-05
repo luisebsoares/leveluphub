@@ -3,11 +3,11 @@ import { fetchGames, fetchGenres, fetchPlatforms } from '../services/rawg.js';
 import { toggleFavorite, isFav } from '../utils/storage.js';
 
 function gameCard(g) {
-  const background = g.background_image || '/favicon.svg';
+  const background = g.background_image || 'public/favicon.svg';
   const plats = (g.parent_platforms || []).map(p => p.platform.name).slice(0, 3).join(' • ');
   const fav = isFav(g.id);
   return `
-    <a href="/detail.html?id=${g.id}" class="card-link">
+    <a href="detail.html?id=${g.id}" class="card-link">
       <article class="card">
         <img src="${background}" alt="${g.name} cover" loading="lazy" />
         <div class="meta">
@@ -34,7 +34,7 @@ function setParams(obj) {
   window.dispatchEvent(new Event('popstate'));
 }
 
-/* ---------- ranking helpers to make search more specific on the client ---------- */
+
 function normalize(s) {
   return (s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
@@ -44,10 +44,9 @@ function scoreTitle(query, name) {
   const n = normalize(name);
   if (!q || !n) return 0;
 
-  if (n === q) return 1000;             // exact match
-  if (n.startsWith(q)) return 750;      // starts with
-  if (n.includes(q)) return 500;        // contains
-  // minor hyphen/colon differences
+  if (n === q) return 1000;
+  if (n.startsWith(q)) return 750;
+  if (n.includes(q)) return 500;
   if (n.replace(/\s+/g, '') === q.replace(/\s+/g, '')) return 900;
   return 0;
 }
@@ -133,7 +132,6 @@ export async function initExplore() {
       const data = await fetchGames(f);
       let list = data.results || [];
 
-      // Re-rank with strictness when searching (no checkbox UI needed)
       if (f.search) {
         list = list
           .map(g => ({ g, s: scoreTitle(f.search, g.name) }))
@@ -146,7 +144,6 @@ export async function initExplore() {
       const grid = el('#grid');
       list.forEach(g => append(grid, gameCard(g)));
 
-      // Favorite button inside linked card
       grid.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-fav]');
         if (!btn) return;
@@ -163,7 +160,6 @@ export async function initExplore() {
     }
   }
 
-  // Init & wire
   syncUI(); run();
 
   let t;

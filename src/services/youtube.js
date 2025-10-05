@@ -1,4 +1,5 @@
-const KEY = import.meta.env.VITE_YT_KEY;
+import { YT_KEY as KEY } from '../config.js';
+
 export async function findTrailerId(name) {
   if (!KEY) return null;
   const q = encodeURIComponent(`${name} trailer`);
