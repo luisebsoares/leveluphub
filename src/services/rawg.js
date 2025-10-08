@@ -58,3 +58,19 @@ export async function fetchScreenshots(id) {
   if (!res.ok) throw new Error('RAWG screenshots error');
   return (await res.json()).results || [];
 }
+
+export async function fetchNewReleasesByParentPlatforms({ parentPlatforms, startDate, endDate, pageSize = 12 }) {
+  const params = new URLSearchParams({
+    key: KEY,
+    dates: `${startDate},${endDate}`,
+    parent_platforms: parentPlatforms, // e.g. "1,2,3"
+    ordering: "-added",                // popularity proxy
+    page_size: String(pageSize)
+  });
+
+  const url = `${BASE}/games?${params.toString()}`;
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`RAWG error (${r.status}) for ${url}`);
+  const data = await r.json();
+  return data.results || [];
+}
