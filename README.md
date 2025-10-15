@@ -23,8 +23,6 @@ It pulls live data from the **RAWG.io API**, showcasing trending, highly rated, 
 ---
 
 ## 🛠️ Tech Stack
-
-| Category | Technology |
 |-----------|-------------|
 | Frontend | HTML 5, CSS 3, JavaScript (ES Modules) |
 | Framework / Bundler | [Vite](https://vitejs.dev/) |
@@ -53,4 +51,3 @@ leveluphub/
 ├── about.html # About / info page
 ├── vite.config.js # Vite configuration (base path for GitHub Pages)
 ├── package.json
-
